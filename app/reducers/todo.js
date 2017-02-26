@@ -16,7 +16,7 @@ export const todos = (state = [] ,action) => {
 	switch(action.type){
 		case 'ADD_TODO': return [...state, todo( null, action)];
 		case 'TOGGLE_TODO': return state.map(t => todo(t,action));
-		case 'REMOVE_TODO': return [state.slice(0, action.index),state.slice(index + 1, state.length)];
+		case 'REMOVE_TODO': return [...state.slice(0, action.index),...state.slice(action.index + 1, state.length)];
 		default: return state;
 	}
 }

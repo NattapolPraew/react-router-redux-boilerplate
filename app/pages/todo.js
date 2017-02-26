@@ -3,28 +3,32 @@ import { render } from 'react-dom'
 import { connect } from 'react-redux'
 
 import * as actions from '../actions/todo'
+import Select2 from '../components/select2Wraper'
 
 
 
 
-const Todo = ({ onClick, isComplete, text }) => (
-	<li onClick={onClick}
+const Todo = ({ onClickRemove, onClickToggle, isComplete, text }) => (
+	<li
 		style={{
 			textDecoration:
 				isComplete?'none':'line-through'
 		}}
 	>
 	{text}
+	<button onClick={onClickToggle}>Toggle</button>
+	<button onClick={onClickRemove}>Remove</button>
 	</li>
 );
 
 let TodoList = ({todos = [], dispatch}) => (
 	<ul>
-		{todos.map(todo => 
+		{todos.map((todo, index) => 
 			<Todo
 				key = {todo.id}
 				{...todo}
-				onClick={() => dispatch(actions.toggleTodo(todo.id))}
+				onClickToggle={() => dispatch(actions.toggleTodo(todo.id))}
+				onClickRemove={() => dispatch(actions.removeTodo(index))}
 			/>
 		)}
 
@@ -45,10 +49,20 @@ let AddTodo = ({dispatch}) => {
 };
 AddTodo = connect()(AddTodo);
 
-export const TodoApp = () => (
+let TodoApp = ({todos = []}) => (
 	<div>
 		<AddTodo />
 		<TodoList />
+      	<Select2 onChange={(e)=>{console.log(e.params);}}
+      	option={{
+      		placeholder:"test placeholder",
+    		allowClear: true,
+    		multiple: true,
+    		data: todos
+    	}}>
+      	</Select2>
 	</div>
 );
 
+TodoApp = connect(state => ({todos:state.todos}))(TodoApp);
+export {TodoApp};

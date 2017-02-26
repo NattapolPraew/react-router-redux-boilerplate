@@ -29,13 +29,12 @@ app.post('/test', function(req, res){
 });
 /*---------------------GET request---------------------*/
 
-
-
+// define the folder that will be used for static assets
 app.use(express.static(path.join(__dirname, 'dist')));
+
 app.get('*', function (req, res) { //can't bypass get
   res.sendFile(path.join(__dirname, 'dist', 'index.html'))
 })
-
 
 app.listen(3000, function(err) {
   if (err) {

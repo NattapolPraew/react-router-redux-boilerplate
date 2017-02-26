@@ -13,6 +13,7 @@ export class About extends React.Component {
       return (
          <div>
             <h1>About...</h1>
+            <a className="button">Test</a>
          </div>
       )
    }
